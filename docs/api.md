@@ -37,3 +37,8 @@
 - `GET /bookings` — View customer/provider booking history.
 - `PATCH /bookings/:id/status` — Update booking status (`ACCEPTED`, `ON_THE_WAY`, `IN_PROGRESS`, `COMPLETED`, `CANCELLED`).
 - `POST /reviews` — Submit 1–5 star review and recalculate provider average rating.
+
+## Production Deployment Notes (Vercel)
+- All REST API endpoints listed above are accessible under the same path structure when deployed to Vercel (e.g. `https://your-domain.vercel.app/auth/login`, `https://your-domain.vercel.app/api/health`).
+- Health check available at `GET /api/health`.
+

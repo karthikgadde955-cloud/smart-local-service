@@ -3,10 +3,21 @@ import path from 'path';
 import fs from 'fs';
 import { AppError } from '../utils/appError';
 
-const uploadDir = path.join(__dirname, '../../uploads');
+// TODO: Production Media Storage Notice
+// Serverless platforms (e.g. Vercel Functions) feature ephemeral read-only file systems (except /tmp).
+// For production deployments, media uploads must be migrated to cloud object storage (e.g., Vercel Blob, AWS S3, or Cloudinary).
+// For local development, disk storage is maintained with safe fallback to /tmp in serverless environments.
 
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
+const uploadDir = process.env.VERCEL === '1'
+  ? path.join('/tmp', 'uploads')
+  : path.join(__dirname, '../../uploads');
+
+try {
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+} catch (err) {
+  console.warn('⚠️ Warning: Unable to create media upload directory on disk:', err);
 }
 
 const storage = multer.diskStorage({

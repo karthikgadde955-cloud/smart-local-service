@@ -33,7 +33,10 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 
 // Serve uploads & static web dashboard
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+const uploadDir = process.env.VERCEL === '1'
+  ? path.join('/tmp', 'uploads')
+  : path.join(__dirname, '../uploads');
+app.use('/uploads', express.static(uploadDir));
 app.use(express.static(path.join(__dirname, '../../web_app')));
 
 // Health Check Route

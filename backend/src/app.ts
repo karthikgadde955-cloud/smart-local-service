@@ -48,17 +48,17 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// API Routes
-app.use('/auth', authRoutes);
-app.use('/users', userRoutes);
-app.use('/services', serviceRoutes);
-app.use('/providers', providerRoutes);
-app.use('/ai', aiRoutes);
-app.use('/appliances', applianceRoutes);
-app.use('/emergency', emergencyRoutes);
-app.use('/bookings', bookingRoutes);
-app.use('/reviews', reviewRoutes);
-app.use('/upload', uploadRoutes);
+// API Routes (Supports both /api/<route> for Vercel serverless and direct <route>)
+app.use(['/api/auth', '/auth'], authRoutes);
+app.use(['/api/users', '/users'], userRoutes);
+app.use(['/api/services', '/services'], serviceRoutes);
+app.use(['/api/providers', '/providers'], providerRoutes);
+app.use(['/api/ai', '/ai'], aiRoutes);
+app.use(['/api/appliances', '/appliances'], applianceRoutes);
+app.use(['/api/emergency', '/emergency'], emergencyRoutes);
+app.use(['/api/bookings', '/bookings'], bookingRoutes);
+app.use(['/api/reviews', '/reviews'], reviewRoutes);
+app.use(['/api/upload', '/upload'], uploadRoutes);
 
 // Fallback to web app for index
 app.get('/', (req, res) => {

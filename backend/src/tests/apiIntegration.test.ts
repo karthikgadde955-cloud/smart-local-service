@@ -43,12 +43,19 @@ async function testBackend() {
     const services = await makeRequest('/services');
     console.log('  ✅ GET /services ->', services.status, `(${services.data.count} categories)`);
 
-    // Test 4: Get Smart Repair Recommended Providers
+    // Test 4: Get Smart Repair Recommended Providers (testing both /providers/recommended and /api/providers/recommended)
     const recs = await makeRequest('/providers/recommended?lat=12.9716&lon=77.5946&mode=SMART_REPAIR&appliance=Washing%20Machine');
     console.log(
       '  ✅ GET /providers/recommended ->',
       recs.status,
       `Rank #1: ${recs.data.bestMatch?.provider?.businessName} (Score: ${recs.data.bestMatch?.totalScore}/100)`
+    );
+
+    const apiRecs = await makeRequest('/api/providers/recommended?lat=12.9716&lon=77.5946&mode=SMART_REPAIR&appliance=Washing%20Machine');
+    console.log(
+      '  ✅ GET /api/providers/recommended ->',
+      apiRecs.status,
+      `Rank #1: ${apiRecs.data.bestMatch?.provider?.businessName} (Score: ${apiRecs.data.bestMatch?.totalScore}/100)`
     );
 
     // Test 5: AI Damage Analysis

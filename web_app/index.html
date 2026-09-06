@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Local Service — AI Repair, Maintenance & Emergency Rescue</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="brand">
+      <div class="brand-logo">⚡</div>
+      <div>
+        <div class="brand-title">SMART LOCAL SERVICE</div>
+        <div class="brand-tagline">AI-Powered Repair, Maintenance & Emergency Rescue</div>
+      </div>
+    </div>
+    <div class="location-badge">
+      📍 Location: Indiranagar, Bangalore (12.9716, 77.5946)
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container">
+
+    <!-- 3 Core Module Selector Tabs -->
+    <div class="module-tabs">
+      <div class="tab-btn active" id="tab-repair" onclick="switchModule('repair')">
+        <div class="tab-icon repair-icon">🔧</div>
+        <div>
+          <div class="tab-title">Smart Repair</div>
+          <div class="tab-desc">AI Photo/Video Damage Detection</div>
+        </div>
+      </div>
+      <div class="tab-btn" id="tab-maint" onclick="switchModule('maint')">
+        <div class="tab-icon maint-icon">🛡️</div>
+        <div>
+          <div class="tab-title">Preventive Maintenance</div>
+          <div class="tab-desc">Appliance Reminders & Expert Ranking</div>
+        </div>
+      </div>
+      <div class="tab-btn emergency" id="tab-emergency" onclick="switchModule('emergency')">
+        <div class="tab-icon emergency-icon">🚨</div>
+        <div>
+          <div class="tab-title">AI Emergency Rescue</div>
+          <div class="tab-desc">Vehicle Breakdown Roadside Assistance</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 1: SMART REPAIR -->
+    <div id="module-repair-content">
+      <div class="card">
+        <div class="card-title">📷 AI Appliance Damage Detection</div>
+        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 16px;">
+          Upload a photo or video of your broken home appliance or select a problem description.
+        </p>
+
+        <div class="upload-dropzone" onclick="runAiAnalysis('Washing Machine Drainage Leak')">
+          <div style="font-size: 36px; margin-bottom: 8px;">📤</div>
+          <div style="font-weight: 700;">Click to Simulate Photo/Video Damage Upload</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Supports Washing Machine, AC, Refrigerator, Plumbing & Electrical</div>
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap;">
+          <button class="btn btn-outline" onclick="runAiAnalysis('Washing Machine Leaking Water')">🧺 Washing Machine Leak</button>
+          <button class="btn btn-outline" onclick="runAiAnalysis('AC Not Cooling Gas Issue')">❄️ AC Low Cooling</button>
+          <button class="btn btn-outline" onclick="runAiAnalysis('Refrigerator Defrost Noise')">🧊 Fridge Noise</button>
+        </div>
+
+        <!-- AI Output Box -->
+        <div id="ai-output" style="display: none;" class="ai-result-box">
+          <div class="ai-header">
+            <div style="font-weight: 800; color: var(--primary); font-size: 16px;">🤖 AI Analysis Result</div>
+            <span class="ai-badge" id="ai-confidence">94% Confidence Score</span>
+          </div>
+          <div class="grid-2">
+            <div>
+              <div><strong>Appliance:</strong> <span id="ai-appliance">Washing Machine</span></div>
+              <div><strong>Detected Problem:</strong> <span id="ai-problem">Drainage Pump Blockage</span></div>
+              <div><strong>Category:</strong> <span id="ai-category">Water Drainage Failure</span></div>
+            </div>
+            <div>
+              <div><strong>Required Professional:</strong> <span id="ai-pro">Washing Machine Technician</span></div>
+              <div><strong>Severity:</strong> <span id="ai-severity" style="color: var(--accent); font-weight: 700;">MEDIUM</span></div>
+              <div><strong>Est. Repair Cost:</strong> <span id="ai-cost" style="color: var(--success); font-weight: 800;">₹500 – ₹1,200</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Smart Ranking Results -->
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div class="card-title" style="margin-bottom: 0;">🏆 Smart Ranked Service Providers</div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-outline" style="font-size: 12px; padding: 6px 12px;" onclick="loadRankedProviders('best_match')">Best Match</button>
+            <button class="btn btn-outline" style="font-size: 12px; padding: 6px 12px;" onclick="loadRankedProviders('distance')">Nearest</button>
+            <button class="btn btn-outline" style="font-size: 12px; padding: 6px 12px;" onclick="loadRankedProviders('price')">Lowest Price</button>
+          </div>
+        </div>
+
+        <div id="providers-list">
+          <!-- Dynamic Ranked Providers List -->
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 2: PREVENTIVE MAINTENANCE -->
+    <div id="module-maint-content" style="display: none;">
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center;" class="card-title">
+          <span>🛡️ My Appliances & Maintenance Schedule</span>
+          <button class="btn btn-secondary" onclick="addAppliancePrompt()">+ Add Appliance</button>
+        </div>
+
+        <div id="appliances-list" class="grid-2">
+          <!-- Appliances rendered dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 3: AI EMERGENCY RESCUE -->
+    <div id="module-emergency-content" style="display: none;">
+      <div class="card" style="border-top: 4px solid var(--danger);">
+        <div class="safety-alert">
+          🚨 <strong>IMMEDIATE SAFETY NOTICE:</strong> For serious road accidents, medical emergencies, or vehicle fires, please contact Emergency Services (911 / 112) immediately before calling roadside mechanics.
+        </div>
+
+        <div class="card-title">🚨 Vehicle Breakdown Emergency Assistance</div>
+
+        <div style="margin-bottom: 16px;">
+          <label style="font-weight: 700; font-size: 14px; margin-bottom: 8px; display: block;">Select Breakdown Vehicle:</label>
+          <div style="display: flex; gap: 12px;">
+            <button class="btn btn-outline" id="v-bike" onclick="selectVehicle('MOTORCYCLE')">🏍️ Motorcycle</button>
+            <button class="btn btn-outline" id="v-scooter" onclick="selectVehicle('SCOOTER')">🛵 Scooter</button>
+            <button class="btn btn-outline" id="v-car" onclick="selectVehicle('CAR')">🚗 Car</button>
+          </div>
+        </div>
+
+        <button class="btn btn-danger" style="width: 100%; justify-content: center; padding: 16px; font-size: 16px;" onclick="triggerEmergencyRescue()">
+          🚨 TRIGGER AI EMERGENCY RESCUE DISPATCH
+        </button>
+
+        <div id="emergency-status-box" style="display: none; margin-top: 20px;" class="ai-result-box">
+          <div style="font-weight: 800; color: var(--danger); font-size: 15px; margin-bottom: 8px;" id="expansion-msg">
+            🔍 Searching for mechanics within 5 km...
+          </div>
+          <div id="emergency-mechanics-list">
+            <!-- Dynamic Emergency Mechanics List -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
